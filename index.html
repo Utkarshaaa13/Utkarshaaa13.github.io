@@ -3,6 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <title>Great CBD QuickFind</title>
+  <script>
+    const items = [
+      { name: "Blood Orange", file: "blood_orange.jpg", id: "1366" },
+      { name: "Lime Sorbet", file: "lime_sorbet.jpg", id: "7444" },
+      { name: "Sour Mango", file: "sour_mango.jpg", id: "1397" },
+      { name: "Tangie Banana", file: "tangie_banana.jpg", id: "7451" },
+      { name: "Orange Pineapple", file: "orange_pineapple.jpg", id: "1311" },
+      { name: "Sour Apple", file: "sour_apple.jpg", id: "1380" },
+      { name: "Sugar Cookie", file: "sugar_cookie.jpg", id: "7468" },
+      { name: "Rainbow Belts", file: "rainbow_belts.jpg", id: "7475" },
+      { name: "Blueberry Blast", file: "blueberry_blast.jpg", id: "1304" },
+      { name: "Watermelon Lime", file: "watermelon_lime.jpg", id: "1403" }
+    ];
+
+    function startSearch() {
+      const query = document.getElementById("search").value.toLowerCase();
+      const item = items.find(i => i.name.toLowerCase().includes(query) || i.id.endsWith(query));
+
+      if (item) {
+        const params = new URLSearchParams();
+        params.set('name', item.name);
+        params.set('id', item.id);
+        params.set('file', item.file);
+        window.location.href = `result.html?${params.toString()}`;
+      } else {
+        alert("❌ No item found. Please check the name or ID.");
+      }
+    }
+
+    function startVoice() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert("Speech recognition not supported in this browser.");
+        return;
+      }
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("search").value = transcript;
+        startSearch();
+      };
+
+      recognition.onerror = function(event) {
+        alert("❌ Microphone access denied. Please allow it in browser settings.");
+      };
+    }
+  </script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -83,37 +132,6 @@
       background-color: #2bbbad;
     }
 
-    .result {
-      margin-top: 30px;
-      padding: 20px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-      display: none;
-    }
-
-    .result.show {
-      display: block;
-    }
-
-    .result img {
-      max-width: 45%;
-      margin: 10px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    .result h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-
-    .result .location {
-      font-size: 18px;
-      color: #555;
-      margin-top: 10px;
-    }
-
     footer {
       background-color: #26a69a;
       color: white;
@@ -134,64 +152,9 @@
       <button onclick="startSearch()">🔍 Search</button>
       <button onclick="startVoice()">🎤 Speak</button>
     </div>
-    <div id="result" class="result"></div>
   </main>
   <footer>
     &copy; 2025 Great CBD QuickFind
   </footer>
-
-  <script>
-    const items = [
-      { name: "Blood Orange", file: "blood_orange.jpg", id: "1366" },
-      { name: "Lime Sorbet", file: "lime_sorbet.jpg", id: "7444" },
-      { name: "Sour Mango", file: "sour_mango.jpg", id: "1397" },
-      { name: "Tangie Banana", file: "tangie_banana.jpg", id: "7451" },
-      { name: "Orange Pineapple", file: "orange_pineapple.jpg", id: "1311" },
-      { name: "Sour Apple", file: "sour_apple.jpg", id: "1380" },
-      { name: "Sugar Cookie", file: "sugar_cookie.jpg", id: "7468" },
-      { name: "Rainbow Belts", file: "rainbow_belts.jpg", id: "7475" },
-      { name: "Blueberry Blast", file: "blueberry_blast.jpg", id: "1304" },
-      { name: "Watermelon Lime", file: "watermelon_lime.jpg", id: "1403" }
-    ];
-
-    function startSearch() {
-      const query = document.getElementById("search").value.toLowerCase();
-      const item = items.find(i => i.name.toLowerCase().includes(query) || i.id.endsWith(query));
-      const result = document.getElementById("result");
-
-      if (item) {
-        result.innerHTML = `
-          <h2>${item.name} (ID: ${item.id})</h2>
-          <img src="${item.file}" alt="${item.name}" />
-          <img src="shelf.jpg" alt="Shelf for ${item.name}" />
-          <div class="location">📍 It's on the B4 shelf, R2 rack, left corner of B4 shelf.</div>
-        `;
-        result.classList.add("show");
-      } else {
-        result.innerHTML = `<p>❌ No item found. Please check the name or ID.</p>`;
-        result.classList.add("show");
-      }
-    }
-
-    function startVoice() {
-      if (!('webkitSpeechRecognition' in window)) {
-        alert("Speech recognition not supported in this browser.");
-        return;
-      }
-      const recognition = new webkitSpeechRecognition();
-      recognition.lang = "en-US";
-      recognition.start();
-
-      recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById("search").value = transcript;
-        startSearch();
-      };
-
-      recognition.onerror = function(event) {
-        alert("❌ Microphone access denied. Please allow it in browser settings.");
-      };
-    }
-  </script>
 </body>
 </html>
