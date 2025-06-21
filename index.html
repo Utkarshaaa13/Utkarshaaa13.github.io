@@ -119,6 +119,7 @@
       position: absolute;
       border: 3px solid red;
       pointer-events: none;
+      box-shadow: 0 0 10px 4px red;
     }
 
     .zoom-container {
@@ -201,28 +202,36 @@
                 <h3>ID: ${item.id}</h3>
                 <p class="location">📍 It's on the B4 shelf, R2 rack, left corner of B4 shelf.</p>
                 <div class="zoom-container">
-                  <img src="shelf.jpg" alt="Shelf Image" class="zoomable" id="shelfImage" />
+                  <img src="shelf.jpg" alt="Shelf Image" class="zoomable" id="shelfImage" onload="highlightZone(${item.zone.x}, ${item.zone.y}, ${item.zone.w}, ${item.zone.h})" />
                   <div class="highlight-zone" id="highlightBox"></div>
                 </div>
               </div>
             </div>
           </div>
         `;
-
-        setTimeout(() => {
-          const box = document.getElementById("highlightBox");
-          const container = document.getElementById("shelfImage");
-          const scale = container.offsetWidth / container.naturalWidth;
-
-          box.style.top = `${item.zone.y * scale}px`;
-          box.style.left = `${item.zone.x * scale}px`;
-          box.style.width = `${item.zone.w * scale}px`;
-          box.style.height = `${item.zone.h * scale}px`;
-          box.style.position = "absolute";
-        }, 300);
       } else {
         result.innerHTML = query ? "<p>No item found.</p>" : "";
         result.classList.remove("show");
+      }
+    }
+
+    function highlightZone(x, y, w, h) {
+      const shelfImg = document.getElementById("shelfImage");
+      const box = document.getElementById("highlightBox");
+
+      const updateBox = () => {
+        const scale = shelfImg.offsetWidth / shelfImg.naturalWidth;
+        box.style.top = `${y * scale}px`;
+        box.style.left = `${x * scale}px`;
+        box.style.width = `${w * scale}px`;
+        box.style.height = `${h * scale}px`;
+        box.style.display = "block";
+      };
+
+      if (shelfImg.complete) {
+        updateBox();
+      } else {
+        shelfImg.onload = updateBox;
       }
     }
 
