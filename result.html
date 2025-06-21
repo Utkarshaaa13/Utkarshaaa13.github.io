@@ -9,11 +9,11 @@
       background: #f9fefb;
       margin: 0;
       padding: 0;
-      text-align: center;
     }
     header {
       background-color: #26a69a;
       padding: 20px;
+      text-align: center;
     }
     header img {
       height: 80px;
@@ -24,31 +24,40 @@
     h2 {
       font-size: 28px;
       color: #222;
+      text-align: center;
     }
-    .image-container {
+    .result-flex {
       display: flex;
       flex-direction: column;
+      gap: 30px;
+      justify-content: center;
       align-items: center;
-      margin-top: 20px;
     }
-    .image-container img {
-      max-width: 90%;
-      max-height: 320px;
-      margin: 10px;
+    @media (min-width: 768px) {
+      .result-flex {
+        flex-direction: row;
+      }
+    }
+    .result-box img {
+      max-width: 100%;
+      height: auto;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .zoom:hover {
+      transform: scale(1.15);
+      z-index: 2;
+    }
+    .zoom {
       transition: 0.3s ease;
       cursor: zoom-in;
     }
-    .image-container img:hover {
-      transform: scale(1.2);
-      z-index: 2;
-    }
     .location {
+      text-align: center;
       font-size: 18px;
       font-weight: bold;
       color: #444;
-      margin-top: 20px;
+      margin-top: 30px;
     }
     footer {
       background-color: #26a69a;
@@ -56,6 +65,7 @@
       padding: 12px;
       font-size: 14px;
       margin-top: 30px;
+      text-align: center;
     }
   </style>
 </head>
@@ -65,9 +75,13 @@
   </header>
   <main>
     <h2 id="title"></h2>
-    <div class="image-container">
-      <img id="product-img" src="" alt="Product Image">
-      <img id="shelf-img" src="shelf.jpg" alt="Shelf Image">
+    <div class="result-flex">
+      <div class="result-box">
+        <img id="product-img" src="" alt="Product Image">
+      </div>
+      <div class="result-box">
+        <img id="shelf-img" class="zoom" src="shelf.jpg" alt="Shelf Image">
+      </div>
     </div>
     <div class="location">📍 It's on the B4 shelf, R2 rack, left corner of B4 shelf.</div>
   </main>
