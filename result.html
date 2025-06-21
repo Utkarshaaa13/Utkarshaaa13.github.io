@@ -44,7 +44,7 @@
       text-align: center;
     }
     #product-img {
-      max-width: 80%;
+      max-width: 40%;
       height: auto;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -63,6 +63,15 @@
     }
     .zoom-container img.zoom:hover {
       transform: scale(2);
+    }
+    .highlight-box {
+      position: absolute;
+      border: 2px solid red;
+      width: 40px;
+      height: 40px;
+      top: 40%;
+      left: 35%;
+      pointer-events: none;
     }
     .shelf-section {
       display: flex;
@@ -100,6 +109,7 @@
       <div class="result-box shelf-section">
         <div class="zoom-container">
           <img id="shelf-img" class="zoom" src="shelf.jpg" alt="Shelf Image">
+          <div class="highlight-box"></div>
         </div>
         <div class="location">📍 It's on the B4 shelf, R2 rack, left corner of B4 shelf.</div>
       </div>
