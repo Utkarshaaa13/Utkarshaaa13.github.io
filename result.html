@@ -16,7 +16,7 @@
       text-align: center;
     }
     header img {
-      height: 80px;
+      height: 120px;
     }
     main {
       padding: 40px 20px;
@@ -38,18 +38,23 @@
         flex-direction: row;
       }
     }
+    .result-box {
+      flex: 1;
+      text-align: center;
+    }
     .result-box img {
       max-width: 100%;
       height: auto;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-    .zoom:hover {
-      transform: scale(1.15);
-      z-index: 2;
+    .zoom-container {
+      position: relative;
+      overflow: hidden;
     }
-    .zoom {
-      transition: 0.3s ease;
+    .zoom-container img.zoom:hover {
+      transform: scale(2);
+      transition: transform 0.3s ease;
       cursor: zoom-in;
     }
     .location {
@@ -79,7 +84,7 @@
       <div class="result-box">
         <img id="product-img" src="" alt="Product Image">
       </div>
-      <div class="result-box">
+      <div class="result-box zoom-container">
         <img id="shelf-img" class="zoom" src="shelf.jpg" alt="Shelf Image">
       </div>
     </div>
