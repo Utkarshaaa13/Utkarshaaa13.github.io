@@ -171,7 +171,7 @@
 
     function startVoice() {
       if (!('webkitSpeechRecognition' in window)) {
-        alert("Sorry, your browser doesn't support voice recognition.");
+        alert("Your browser doesn't support voice recognition.");
         return;
       }
 
@@ -180,7 +180,14 @@
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
-      recognition.start();
+      // Ask for mic access manually first
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(() => {
+          recognition.start();
+        })
+        .catch(() => {
+          alert("❌ Microphone access denied. Please allow it in browser settings.");
+        });
 
       recognition.onresult = function(event) {
         const transcript = event.results[0][0].transcript;
@@ -189,7 +196,7 @@
       };
 
       recognition.onerror = function(event) {
-        alert("Voice search error: " + event.error);
+        alert("🎤 Voice error: " + event.error);
       };
     }
   </script>
