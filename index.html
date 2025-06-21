@@ -20,6 +20,11 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
+    header img {
+      height: 60px;
+      margin-bottom: 10px;
+    }
+
     h1 {
       margin: 0;
       font-size: 28px;
@@ -30,6 +35,14 @@
       text-align: center;
     }
 
+    .search-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
     input[type="text"] {
       padding: 14px;
       width: 90%;
@@ -37,7 +50,6 @@
       font-size: 18px;
       border: 2px solid #26a69a;
       border-radius: 8px;
-      margin-bottom: 10px;
     }
 
     button {
@@ -53,6 +65,11 @@
     .result {
       margin-top: 30px;
       padding: 0 10px;
+      display: none;
+    }
+
+    .result.show {
+      display: block;
     }
 
     .result-wrapper {
@@ -137,11 +154,13 @@
 </head>
 <body>
   <header>
+    <img src="logo.png" alt="Great CBD Logo" />
     <h1>Great CBD QuickFind</h1>
   </header>
   <main>
-    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
-      <input type="text" id="search" placeholder="Search by name or last 4 digits..." oninput="searchItem()" />
+    <div class="search-container">
+      <input type="text" id="search" placeholder="Enter item name or last 4 digits..." />
+      <button onclick="startSearch()">🔍 Search</button>
       <button onclick="startVoice()">🎤 Speak</button>
     </div>
     <div id="result" class="result"></div>
@@ -164,12 +183,13 @@
       { name: "Watermelon Lime", file: "watermelon_lime.jpg", id: "1403", zone: {x: 50, y: 170, w: 60, h: 60} }
     ];
 
-    function searchItem() {
+    function startSearch() {
       const query = document.getElementById("search").value.toLowerCase();
       const item = items.find(i => i.name.toLowerCase().includes(query) || i.id.endsWith(query));
       const result = document.getElementById("result");
 
       if (item && item.zone) {
+        result.classList.add("show");
         result.innerHTML = `
           <div class="result-wrapper">
             <div class="result-box">
@@ -202,6 +222,7 @@
         }, 300);
       } else {
         result.innerHTML = query ? "<p>No item found.</p>" : "";
+        result.classList.remove("show");
       }
     }
 
@@ -227,7 +248,7 @@
       recognition.onresult = function(event) {
         const transcript = event.results[0][0].transcript;
         document.getElementById("search").value = transcript;
-        searchItem();
+        startSearch();
       };
 
       recognition.onerror = function(event) {
