@@ -28,11 +28,11 @@
     }
 
     header img {
-      height: 80px;
-      margin-bottom: 10px;
-      background-color: rgba(255,255,255,0.8);
-      border-radius: 50%;
-      padding: 10px;
+      max-height: 140px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      background-color: rgba(255,255,255,0.9);
+      padding: 8px;
     }
 
     h1 {
@@ -62,8 +62,9 @@
     }
 
     .search-container img {
-      width: 120px;
+      max-width: 100%;
       border-radius: 12px;
+      object-fit: contain;
     }
 
     input[type="text"] {
@@ -112,12 +113,12 @@
 </head>
 <body>
   <header>
-    <img src="A_digital_graphic_welcoming_screen_for_an_online_s.png" alt="Great CBD Logo" />
+    <img src="A_welcome_page_of_an_online_warehouse_inventory_se.png" alt="Great CBD Logo" />
     <h1>Great CBD QuickFind</h1>
   </header>
   <main>
     <div class="search-container">
-      <img src="A_digital_graphic_welcoming_screen_for_an_online_s.png" alt="Search Logo" />
+      <img src="A_welcome_page_of_an_online_warehouse_inventory_se.png" alt="Search Logo" />
       <input type="text" id="search" placeholder="Enter item name or last 4 digits..." />
       <button onclick="startSearch()">🔍 Search</button>
       <button onclick="startVoice()">🎤 Speak</button>
