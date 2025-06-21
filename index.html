@@ -37,7 +37,17 @@
       font-size: 18px;
       border: 2px solid #26a69a;
       border-radius: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 12px 16px;
+      border-radius: 8px;
+      background-color: #26a69a;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
     }
 
     .result {
@@ -71,8 +81,7 @@
       max-width: 400px;
     }
 
-    .image-side img,
-    .info-side img {
+    .image-side img, .info-side img {
       width: 100%;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -108,7 +117,10 @@
     <h1>Great CBD QuickFind</h1>
   </header>
   <main>
-    <input type="text" id="search" placeholder="Search by name or last 4 digits..." oninput="searchItem()" />
+    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <input type="text" id="search" placeholder="Search by name or last 4 digits..." oninput="searchItem()" />
+      <button onclick="startVoice()">🎤 Speak</button>
+    </div>
     <div id="result" class="result"></div>
   </main>
   <footer>
@@ -155,6 +167,30 @@
       } else {
         result.innerHTML = query ? "<p>No item found.</p>" : "";
       }
+    }
+
+    function startVoice() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert("Sorry, your browser doesn't support voice recognition.");
+        return;
+      }
+
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("search").value = transcript;
+        searchItem();
+      };
+
+      recognition.onerror = function(event) {
+        alert("Voice search error: " + event.error);
+      };
     }
   </script>
 </body>
