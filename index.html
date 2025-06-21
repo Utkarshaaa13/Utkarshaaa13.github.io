@@ -10,28 +10,39 @@
       color: #333;
       margin: 0;
       padding: 0;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     header {
-      background-color: #26a69a;
+      background: url('https://images.unsplash.com/photo-1581093588401-7a5457b7f4c1?auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+      background-size: cover;
       color: white;
-      padding: 20px;
+      padding: 60px 20px;
       text-align: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     header img {
-      height: 60px;
+      height: 80px;
       margin-bottom: 10px;
+      background-color: rgba(255,255,255,0.8);
+      border-radius: 50%;
+      padding: 10px;
     }
 
     h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 36px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     }
 
     main {
-      padding: 20px;
+      padding: 40px 20px;
       text-align: center;
     }
 
@@ -41,25 +52,42 @@
       align-items: center;
       justify-content: center;
       gap: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .search-container img {
+      width: 120px;
+      border-radius: 12px;
     }
 
     input[type="text"] {
-      padding: 14px;
-      width: 90%;
-      max-width: 400px;
+      padding: 16px;
+      width: 100%;
       font-size: 18px;
       border: 2px solid #26a69a;
       border-radius: 8px;
     }
 
     button {
-      padding: 12px 16px;
+      padding: 14px 20px;
       border-radius: 8px;
       background-color: #26a69a;
       color: white;
       border: none;
       cursor: pointer;
       font-size: 16px;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2bbbad;
     }
 
     .result {
@@ -72,84 +100,13 @@
       display: block;
     }
 
-    .result-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    .result-box {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 100%;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .image-side, .info-side {
-      flex: 1;
-      min-width: 250px;
-      max-width: 400px;
-    }
-
-    .image-side img, .info-side img {
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .zoomable {
-      max-width: 100%;
-      cursor: zoom-in;
-      transition: transform 0.3s ease;
-    }
-
-    .zoomable:hover {
-      transform: scale(3.5);
-      z-index: 999;
-    }
-
-    .highlight-zone {
-      position: absolute;
-      border: 3px solid red;
-      pointer-events: none;
-      box-shadow: 0 0 10px 4px red;
-    }
-
-    .zoom-container {
-      position: relative;
-      display: inline-block;
-      max-width: 100%;
-    }
-
-    .location {
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: 12px;
-      color: #444;
-      text-align: left;
-    }
-
     footer {
       background-color: #26a69a;
       color: white;
       text-align: center;
-      padding: 10px;
+      padding: 12px;
       margin-top: 40px;
       font-size: 14px;
-    }
-
-    @media (min-width: 700px) {
-      .result-box {
-        flex-direction: row;
-        align-items: flex-start;
-      }
     }
   </style>
 </head>
@@ -160,6 +117,7 @@
   </header>
   <main>
     <div class="search-container">
+      <img src="logo.png" alt="Search Logo" />
       <input type="text" id="search" placeholder="Enter item name or last 4 digits..." />
       <button onclick="startSearch()">🔍 Search</button>
       <button onclick="startVoice()">🎤 Speak</button>
@@ -169,101 +127,5 @@
   <footer>
     &copy; 2025 Great CBD QuickFind
   </footer>
-
-  <script>
-    const items = [
-      { name: "Blood Orange", file: "blood_orange.jpg", id: "1366", zone: {x: 30, y: 40, w: 60, h: 60} },
-      { name: "Lime Sorbet", file: "lime_sorbet.jpg", id: "7444", zone: {x: 120, y: 50, w: 60, h: 60} },
-      { name: "Sour Mango", file: "sour_mango.jpg", id: "1397", zone: {x: 200, y: 90, w: 60, h: 60} },
-      { name: "Tangie Banana", file: "tangie_banana.jpg", id: "7451", zone: {x: 60, y: 30, w: 60, h: 60} },
-      { name: "Orange Pineapple", file: "orange_pineapple.jpg", id: "1311", zone: {x: 80, y: 110, w: 60, h: 60} },
-      { name: "Sour Apple", file: "sour_apple.jpg", id: "1380", zone: {x: 140, y: 70, w: 60, h: 60} },
-      { name: "Sugar Cookie", file: "sugar_cookie.jpg", id: "7468", zone: {x: 180, y: 130, w: 60, h: 60} },
-      { name: "Rainbow Belts", file: "rainbow_belts.jpg", id: "7475", zone: {x: 100, y: 150, w: 60, h: 60} },
-      { name: "Blueberry Blast", file: "blueberry_blast.jpg", id: "1304", zone: {x: 220, y: 60, w: 60, h: 60} },
-      { name: "Watermelon Lime", file: "watermelon_lime.jpg", id: "1403", zone: {x: 50, y: 170, w: 60, h: 60} }
-    ];
-
-    function startSearch() {
-      const query = document.getElementById("search").value.toLowerCase();
-      const item = items.find(i => i.name.toLowerCase().includes(query) || i.id.endsWith(query));
-      const result = document.getElementById("result");
-
-      if (item && item.zone) {
-        result.classList.add("show");
-        result.innerHTML = `
-          <div class="result-wrapper">
-            <div class="result-box">
-              <div class="image-side">
-                <img src="${item.file}" alt="${item.name}" />
-              </div>
-              <div class="info-side">
-                <h2>🧃 ${item.name}</h2>
-                <h3>ID: ${item.id}</h3>
-                <p class="location">📍 It's on the B4 shelf, R2 rack, left corner of B4 shelf.</p>
-                <div class="zoom-container">
-                  <img src="shelf.jpg" alt="Shelf Image" class="zoomable" id="shelfImage" onload="highlightZone(${item.zone.x}, ${item.zone.y}, ${item.zone.w}, ${item.zone.h})" />
-                  <div class="highlight-zone" id="highlightBox"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      } else {
-        result.innerHTML = query ? "<p>No item found.</p>" : "";
-        result.classList.remove("show");
-      }
-    }
-
-    function highlightZone(x, y, w, h) {
-      const shelfImg = document.getElementById("shelfImage");
-      const box = document.getElementById("highlightBox");
-
-      const updateBox = () => {
-        const scale = shelfImg.offsetWidth / shelfImg.naturalWidth;
-        box.style.top = `${y * scale}px`;
-        box.style.left = `${x * scale}px`;
-        box.style.width = `${w * scale}px`;
-        box.style.height = `${h * scale}px`;
-        box.style.display = "block";
-      };
-
-      if (shelfImg.complete) {
-        updateBox();
-      } else {
-        shelfImg.onload = updateBox;
-      }
-    }
-
-    function startVoice() {
-      if (!('webkitSpeechRecognition' in window)) {
-        alert("Your browser doesn't support voice recognition.");
-        return;
-      }
-
-      const recognition = new webkitSpeechRecognition();
-      recognition.lang = "en-US";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(() => {
-          recognition.start();
-        })
-        .catch((err) => {
-          alert("❌ Microphone access denied.\nPlease enable it in browser settings.\n\nError: " + err.message);
-        });
-
-      recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById("search").value = transcript;
-        startSearch();
-      };
-
-      recognition.onerror = function(event) {
-        alert("🎤 Voice error: " + event.error);
-      };
-    }
-  </script>
 </body>
 </html>
