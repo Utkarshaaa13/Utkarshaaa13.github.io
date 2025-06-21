@@ -28,7 +28,7 @@
     }
 
     header img {
-      max-height: 200px;
+      max-height: 220px;
       margin-bottom: 20px;
       border-radius: 16px;
       background-color: rgba(255,255,255,0.9);
@@ -168,8 +168,8 @@
         `;
         result.classList.add("show");
       } else {
-        result.innerHTML = `<p>No item found.</p>`;
-        result.classList.remove("show");
+        result.innerHTML = `<p>❌ No item found. Please check the name or ID.</p>`;
+        result.classList.add("show");
       }
     }
 
