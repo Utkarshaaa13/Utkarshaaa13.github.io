@@ -61,7 +61,7 @@
     <h1>Great CBD Smart Warehouse Finder</h1>
   </header>
   <main>
-    <input type="text" id="search" placeholder="Search item name..." oninput="searchItem()" />
+    <input type="text" id="search" placeholder="Search by name or last 4 digits..." oninput="searchItem()" />
     <div id="result" class="result"></div>
   </main>
   <footer>
@@ -70,25 +70,29 @@
 
   <script>
     const items = [
-      { name: "Blood Orange", file: "blood_orange.jpg" },
-      { name: "Lime Sorbet", file: "lime_sorbet.jpg" },
-      { name: "Sour Mango", file: "sour_mango.jpg" },
-      { name: "Tangie Banana", file: "tangie_banana.jpg" },
-      { name: "Orange Pineapple", file: "orange_pineapple.jpg" },
-      { name: "Sour Apple", file: "sour_apple.jpg" },
-      { name: "Sugar Cookie", file: "sugar_cookie.jpg" },
-      { name: "Rainbow Belts", file: "rainbow_belts.jpg" },
-      { name: "Blueberry Blast", file: "blueberry_blast.jpg" }
+      { name: "Blood Orange", file: "blood_orange.jpg", id: "1366" },
+      { name: "Lime Sorbet", file: "lime_sorbet.jpg", id: "7444" },
+      { name: "Sour Mango", file: "sour_mango.jpg", id: "1397" },
+      { name: "Tangie Banana", file: "tangie_banana.jpg", id: "7451" },
+      { name: "Orange Pineapple", file: "orange_pineapple.jpg", id: "1311" },
+      { name: "Sour Apple", file: "sour_apple.jpg", id: "1380" },
+      { name: "Sugar Cookie", file: "sugar_cookie.jpg", id: "7468" },
+      { name: "Rainbow Belts", file: "rainbow_belts.jpg", id: "7475" },
+      { name: "Blueberry Blast", file: "blueberry_blast.jpg", id: "1304" },
+      { name: "Watermelon Lime", file: "watermelon_lime.jpg", id: "1403" }
     ];
 
     function searchItem() {
       const query = document.getElementById("search").value.toLowerCase();
-      const item = items.find(i => i.name.toLowerCase().includes(query));
+      const item = items.find(i =>
+        i.name.toLowerCase().includes(query) ||
+        i.id.endsWith(query)
+      );
       const result = document.getElementById("result");
 
       if (item) {
         result.innerHTML = `
-          <h2>${item.name}</h2>
+          <h2>${item.name} (ID: ${item.id})</h2>
           <img src="${item.file}" alt="${item.name}" />
           <div class="location">📍 It's on the B4 shelf, R2 rack, left corner of B4 shelf.</div>
           <img src="shelf.jpg" alt="Shelf Image" />
