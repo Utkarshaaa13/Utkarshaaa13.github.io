@@ -154,18 +154,22 @@
     const items = [
       { name: "Blood Orange", file: "blood_orange.jpg", id: "1366", zone: {x: 30, y: 40, w: 60, h: 60} },
       { name: "Lime Sorbet", file: "lime_sorbet.jpg", id: "7444", zone: {x: 120, y: 50, w: 60, h: 60} },
-      { name: "Sour Mango", file: "sour_mango.jpg", id: "1397", zone: {x: 200, y: 90, w: 60, h: 60} }
-      // Add more items and zones
+      { name: "Sour Mango", file: "sour_mango.jpg", id: "1397", zone: {x: 200, y: 90, w: 60, h: 60} },
+      { name: "Tangie Banana", file: "tangie_banana.jpg", id: "7451", zone: {x: 60, y: 30, w: 60, h: 60} },
+      { name: "Orange Pineapple", file: "orange_pineapple.jpg", id: "1311", zone: {x: 80, y: 110, w: 60, h: 60} },
+      { name: "Sour Apple", file: "sour_apple.jpg", id: "1380", zone: {x: 140, y: 70, w: 60, h: 60} },
+      { name: "Sugar Cookie", file: "sugar_cookie.jpg", id: "7468", zone: {x: 180, y: 130, w: 60, h: 60} },
+      { name: "Rainbow Belts", file: "rainbow_belts.jpg", id: "7475", zone: {x: 100, y: 150, w: 60, h: 60} },
+      { name: "Blueberry Blast", file: "blueberry_blast.jpg", id: "1304", zone: {x: 220, y: 60, w: 60, h: 60} },
+      { name: "Watermelon Lime", file: "watermelon_lime.jpg", id: "1403", zone: {x: 50, y: 170, w: 60, h: 60} }
     ];
 
     function searchItem() {
       const query = document.getElementById("search").value.toLowerCase();
-      const item = items.find(i =>
-        i.name.toLowerCase().includes(query) || i.id.endsWith(query)
-      );
+      const item = items.find(i => i.name.toLowerCase().includes(query) || i.id.endsWith(query));
       const result = document.getElementById("result");
 
-      if (item) {
+      if (item && item.zone) {
         result.innerHTML = `
           <div class="result-wrapper">
             <div class="result-box">
@@ -188,7 +192,6 @@
         setTimeout(() => {
           const box = document.getElementById("highlightBox");
           const container = document.getElementById("shelfImage");
-          const rect = container.getBoundingClientRect();
           const scale = container.offsetWidth / container.naturalWidth;
 
           box.style.top = `${item.zone.y * scale}px`;
