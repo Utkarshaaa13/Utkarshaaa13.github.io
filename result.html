@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f0fefc;
+      background: #f9fefb;
       margin: 0;
       padding: 0;
       text-align: center;
@@ -33,10 +33,16 @@
     }
     .image-container img {
       max-width: 90%;
-      max-height: 300px;
+      max-height: 320px;
       margin: 10px;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: 0.3s ease;
+      cursor: zoom-in;
+    }
+    .image-container img:hover {
+      transform: scale(1.2);
+      z-index: 2;
     }
     .location {
       font-size: 18px;
@@ -49,9 +55,7 @@
       color: white;
       padding: 12px;
       font-size: 14px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
+      margin-top: 30px;
     }
   </style>
 </head>
@@ -63,7 +67,7 @@
     <h2 id="title"></h2>
     <div class="image-container">
       <img id="product-img" src="" alt="Product Image">
-      <img src="shelf.jpg" alt="Shelf Image">
+      <img id="shelf-img" src="shelf.jpg" alt="Shelf Image">
     </div>
     <div class="location">📍 It's on the B4 shelf, R2 rack, left corner of B4 shelf.</div>
   </main>
