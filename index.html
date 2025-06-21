@@ -87,6 +87,29 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
+    .zoomable {
+      max-width: 100%;
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+
+    .zoomable:hover {
+      transform: scale(2);
+      z-index: 10;
+    }
+
+    .highlight-zone {
+      position: absolute;
+      border: 3px solid red;
+      pointer-events: none;
+    }
+
+    .zoom-container {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+    }
+
     .location {
       font-size: 18px;
       font-weight: bold;
@@ -129,16 +152,10 @@
 
   <script>
     const items = [
-      { name: "Blood Orange", file: "blood_orange.jpg", id: "1366" },
-      { name: "Lime Sorbet", file: "lime_sorbet.jpg", id: "7444" },
-      { name: "Sour Mango", file: "sour_mango.jpg", id: "1397" },
-      { name: "Tangie Banana", file: "tangie_banana.jpg", id: "7451" },
-      { name: "Orange Pineapple", file: "orange_pineapple.jpg", id: "1311" },
-      { name: "Sour Apple", file: "sour_apple.jpg", id: "1380" },
-      { name: "Sugar Cookie", file: "sugar_cookie.jpg", id: "7468" },
-      { name: "Rainbow Belts", file: "rainbow_belts.jpg", id: "7475" },
-      { name: "Blueberry Blast", file: "blueberry_blast.jpg", id: "1304" },
-      { name: "Watermelon Lime", file: "watermelon_lime.jpg", id: "1403" }
+      { name: "Blood Orange", file: "blood_orange.jpg", id: "1366", zone: {x: 30, y: 40, w: 60, h: 60} },
+      { name: "Lime Sorbet", file: "lime_sorbet.jpg", id: "7444", zone: {x: 120, y: 50, w: 60, h: 60} },
+      { name: "Sour Mango", file: "sour_mango.jpg", id: "1397", zone: {x: 200, y: 90, w: 60, h: 60} }
+      // Add more items and zones
     ];
 
     function searchItem() {
@@ -159,11 +176,27 @@
                 <h2>🧃 ${item.name}</h2>
                 <h3>ID: ${item.id}</h3>
                 <p class="location">📍 It's on the B4 shelf, R2 rack, left corner of B4 shelf.</p>
-                <img src="shelf.jpg" alt="Shelf Image" />
+                <div class="zoom-container">
+                  <img src="shelf.jpg" alt="Shelf Image" class="zoomable" id="shelfImage" />
+                  <div class="highlight-zone" id="highlightBox"></div>
+                </div>
               </div>
             </div>
           </div>
         `;
+
+        setTimeout(() => {
+          const box = document.getElementById("highlightBox");
+          const container = document.getElementById("shelfImage");
+          const rect = container.getBoundingClientRect();
+          const scale = container.offsetWidth / container.naturalWidth;
+
+          box.style.top = `${item.zone.y * scale}px`;
+          box.style.left = `${item.zone.x * scale}px`;
+          box.style.width = `${item.zone.w * scale}px`;
+          box.style.height = `${item.zone.h * scale}px`;
+          box.style.position = "absolute";
+        }, 300);
       } else {
         result.innerHTML = query ? "<p>No item found.</p>" : "";
       }
@@ -180,13 +213,12 @@
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
-      // Ask for mic access manually first
       navigator.mediaDevices.getUserMedia({ audio: true })
         .then(() => {
           recognition.start();
         })
-        .catch(() => {
-          alert("❌ Microphone access denied. Please allow it in browser settings.");
+        .catch((err) => {
+          alert("❌ Microphone access denied.\nPlease enable it in browser settings.\n\nError: " + err.message);
         });
 
       recognition.onresult = function(event) {
