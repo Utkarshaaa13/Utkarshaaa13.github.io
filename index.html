@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Great CBD Warehouse Finder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    input {
+      padding: 10px;
+      width: 300px;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+    }
+    img {
+      max-width: 250px;
+      margin: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    .location {
+      font-size: 16px;
+      color: #444;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Great CBD Warehouse Finder</h1>
+  <input type="text" id="search" placeholder="Search item name..." oninput="searchItem()" />
+  <div id="result" class="result"></div>
+
+  <script>
+    const items = [
+      { name: "Blood Orange", file: "blood_orange.jpg" },
+      { name: "Lime Sorbet", file: "lime_sorbet.jpg" },
+      { name: "Sour Mango", file: "sour_mango.jpg" },
+      { name: "Tangie Banana", file: "tangie_banana.jpg" },
+      { name: "Orange Pineapple", file: "orange_pineapple.jpg" },
+      { name: "Sour Apple", file: "sour_apple.jpg" },
+      { name: "Sugar Cookie", file: "sugar_cookie.jpg" },
+      { name: "Rainbow Belts", file: "rainbow_belts.jpg" },
+      { name: "Blueberry Blast", file: "blueberry_blast.jpg" }
+    ];
+
+    function searchItem() {
+      const query = document.getElementById("search").value.toLowerCase();
+      const item = items.find(i => i.name.toLowerCase().includes(query));
+      const result = document.getElementById("result");
+
+      if (item) {
+        result.innerHTML = `
+          <h2>${item.name}</h2>
+          <img src="${item.file}" alt="${item.name}" />
+          <div class="location">📍 It's on the B4 shelf, R2 rack, left corner of B4 shelf.</div>
+          <img src="shelf.jpg" alt="Shelf" />
+        `;
+      } else {
+        result.innerHTML = query ? "<p>No item found.</p>" : "";
+      }
+    }
+  </script>
+</body>
+</html>
